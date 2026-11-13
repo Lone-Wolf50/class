@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shoply | Demo Store</title>
+<style>
+:root{--p:#4f46e5;--pd:#4338ca;--bg:#f6f7fb;--tx:#1f2937;--mu:#6b7280;--bd:#e5e7eb}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0}
+input,select{font:inherit}
+.wrap{max-width:1180px;margin:auto;padding:0 20px}
+.btn{background:var(--p);color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;display:inline-block}
+.btn:hover{background:var(--pd)}
+.btn.alt{background:#fff;color:var(--p);border:1px solid var(--p)}
+.btn.white{background:#fff;color:#111}
+.top{background:#111827;color:#d1d5db;text-align:center;font-size:.8rem;padding:6px}
+header{background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid var(--bd)}
+.bar{display:flex;align-items:center;gap:20px;height:64px}
+.logo{font-weight:800;font-size:1.4rem;color:var(--p)}
+.search{flex:1;display:flex}
+.search input{flex:1;min-width:0;padding:10px 14px;border:1px solid var(--bd);border-radius:8px 0 0 8px}
+.search button{background:var(--p);color:#fff;padding:0 16px;border-radius:0 8px 8px 0}
+.links{display:flex;gap:16px;align-items:center;font-weight:500;white-space:nowrap}
+.links a:hover{color:var(--p)}
+.cartbtn{position:relative}
+.cartbtn b{position:absolute;top:-9px;right:-13px;background:#ef4444;color:#fff;border-radius:99px;font-size:.7rem;padding:1px 6px}
+.hero{position:relative;height:380px;overflow:hidden;border-radius:16px;margin:20px 0}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 8%;color:#fff;opacity:0;transition:opacity .6s;pointer-events:none}
+.slide.on{opacity:1;pointer-events:auto}
+.slide h2{font-size:2.6rem;margin-bottom:10px}
+.slide p{font-size:1.1rem;margin-bottom:22px}
+.slide .big{font-size:9rem}
+.arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);width:40px;height:40px;border-radius:50%;font-size:1.2rem;z-index:2}
+.arr.l{left:12px}.arr.r{right:12px}
+.dots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:2}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5)}
+.dot.on{background:#fff;width:26px;border-radius:6px}
+h2.sec{font-size:1.5rem;margin:34px 0 16px;display:flex;justify-content:space-between;align-items:baseline}
+h2.sec a{font-size:.9rem;color:var(--p);font-weight:500}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.cat{border-radius:14px;padding:26px;color:#fff;font-weight:700;font-size:1.2rem;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.cat:hover{transform:translateY(-3px)}
+.cat span{font-size:2.6rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--bd);transition:.2s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.1)}
+.thumb{height:160px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;position:relative}
+.badge{position:absolute;top:10px;left:10px;background:#ef4444;color:#fff;font-size:.75rem;padding:2px 8px;border-radius:99px}
+.info{padding:12px 14px;flex:1}
+.info small{color:var(--mu)}
+.info h3{font-size:1rem;margin:2px 0}
+.stars{color:#f59e0b;font-size:.9rem}
+.price{font-weight:700;margin-top:4px}
+.price s{color:var(--mu);font-weight:400;font-size:.85rem;margin-left:4px}
+.card>button{margin:0 14px 14px}
+.promo{background:linear-gradient(120deg,#111827,#4f46e5);color:#fff;border-radius:16px;padding:40px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:34px}
+.promo h2{font-size:2rem}
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:34px}
+.feat{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px;text-align:center}
+.feat span{font-size:2rem;display:block;margin-bottom:6px}
+.news{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:34px;text-align:center;margin:34px 0}
+.news form{display:flex;max-width:420px;margin:14px auto 0}
+.news input{flex:1;padding:10px;border:1px solid var(--bd);border-radius:8px 0 0 8px;min-width:0}
+.news button{border-radius:0 8px 8px 0}
+footer{background:#111827;color:#9ca3af;padding:30px 0;margin-top:40px;font-size:.9rem;text-align:center}
+.bar2{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0}
+.chip{padding:7px 16px;border-radius:99px;background:#fff;border:1px solid var(--bd);font-size:.9rem}
+.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+.bar2 select{margin-left:auto;padding:8px;border-radius:8px;border:1px solid var(--bd)}
+.pd{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin:30px 0;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:30px}
+.pd .pic{border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:10rem;min-height:340px}
+.pd h1{font-size:1.9rem;margin:6px 0}
+.pd .price{font-size:1.6rem;margin:12px 0}
+.pd p{color:var(--mu);line-height:1.6;margin-bottom:18px}
+.qty{display:inline-flex;align-items:center;gap:8px;margin-right:12px}
+.qty input{width:60px;padding:9px;border:1px solid var(--bd);border-radius:8px;text-align:center}
+.two{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin:30px 0;align-items:start}
+.box{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:22px}
+.box h2{margin-bottom:14px;font-size:1.2rem}
+.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.row .ic{width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.row .nm{flex:1}
+.row .q button{background:var(--bg);width:28px;height:28px;border-radius:6px}
+.sum div{display:flex;justify-content:space-between;padding:6px 0}
+.sum .t{font-weight:800;font-size:1.15rem;border-top:1px solid var(--bd);margin-top:6px;padding-top:12px}
+.rm{color:#ef4444;background:none}
+.form{max-width:420px;margin:40px auto}
+.form label{display:block;font-size:.85rem;margin:12px 0 4px;color:var(--mu)}
+.form input{width:100%;padding:11px;border:1px solid var(--bd);border-radius:8px}
+.form .btn{width:100%;margin-top:18px}
+.tabs{display:flex;margin-bottom:10px;border-bottom:1px solid var(--bd)}
+.tabs a{flex:1;text-align:center;padding:12px;font-weight:600;color:var(--mu)}
+.tabs a.on{color:var(--p);border-bottom:2px solid var(--p)}
+.note{background:#eef2ff;color:#3730a3;border-radius:8px;padding:10px;font-size:.85rem;margin-bottom:6px}
+.ok{background:#dcfce7;color:#166534;padding:14px;border-radius:10px;margin:20px 0}
+.empty{text-align:center;padding:60px 0;color:var(--mu)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);background:#111827;color:#fff;padding:12px 22px;border-radius:10px;opacity:0;transition:.3s;z-index:50}
+#toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:760px){
+ .bar{flex-wrap:wrap;height:auto;padding:10px 0;gap:10px}
+ .search{order:3;flex-basis:100%}
+ .hero{height:300px}.slide h2{font-size:1.7rem}.slide .big{display:none}
+ .pd,.two{grid-template-columns:1fr}.pd .pic{font-size:6rem;min-height:200px}
+}
+</style>
+</head>
+<body>
+<div class="top">🚚 Free shipping on orders over $100 | This is a demo store, no real orders</div>
+<header><div class="wrap bar">
+  <a class="logo" href="#/">🛍️ Shoply</a>
+  <form class="search" onsubmit="return doSearch(event)">
+    <input id="q" placeholder="Search products..."><button>Search</button>
+  </form>
+  <nav class="links" id="nav"></nav>
+</div></header>
+
+<main id="app"></main>
+
+<footer><div class="wrap">© 2026 Shoply Demo Store. Built with HTML, CSS and JavaScript. No real transactions.</div></footer>
+<div id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const get = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch (e) { return d } };
+const set = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+const money = n => '$' + n.toFixed(2);
+const stars = r => '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r));
+
+let cart = get('cart', {}), user = get('user', null), cur = 0, timer;
+if (!get('users', null)) set('users', [{name:'Demo User', email:'demo@shop.com', pass:'demo123'}]);
+
+const P = [
+ {id:1, name:'Running Sneakers',  cat:'Fashion',     price:59.99, old:79.99, r:4.5, i:'👟', c:'#fde68a', d:'Lightweight, breathable sneakers built for daily runs and everyday comfort.'},
+ {id:2, name:'Leather Backpack',  cat:'Fashion',     price:49.50, old:0,     r:4,   i:'🎒', c:'#fecaca', d:'Roomy backpack with padded straps and a laptop compartment.'},
+ {id:3, name:'Aviator Sunglasses',cat:'Fashion',     price:25,    old:40,    r:4,   i:'🕶️', c:'#bfdbfe', d:'UV400 protection with a timeless aviator frame.'},
+ {id:4, name:'Classic Watch',     cat:'Fashion',     price:120,   old:0,     r:5,   i:'⌚', c:'#e9d5ff', d:'Stainless steel case, sapphire-style glass and a leather strap.'},
+ {id:5, name:'Wireless Headphones',cat:'Electronics',price:89,    old:119,   r:4.5, i:'🎧', c:'#c7d2fe', d:'Active noise cancelling with 30 hours of battery life.'},
+ {id:6, name:'Smart Speaker',     cat:'Electronics', price:45,    old:0,     r:4,   i:'🔊', c:'#a7f3d0', d:'Room-filling sound with voice control and multi-room support.'},
+ {id:7, name:'Gaming Mouse',      cat:'Electronics', price:29.99, old:0,     r:4,   i:'🖱️', c:'#fbcfe8', d:'Precision sensor, programmable buttons and RGB lighting.'},
+ {id:8, name:'Ultrabook Laptop',  cat:'Electronics', price:799,   old:899,   r:4.5, i:'💻', c:'#bae6fd', d:'14-inch display, fast SSD storage and all-day battery.'},
+ {id:9, name:'Desk Plant',        cat:'Home',        price:18,    old:0,     r:4,   i:'🪴', c:'#bbf7d0', d:'Low-maintenance plant in a ceramic pot. Perfect for any desk.'},
+ {id:10,name:'Table Lamp',        cat:'Home',        price:34,    old:45,    r:4,   i:'💡', c:'#fef08a', d:'Warm dimmable light with a modern minimalist base.'},
+ {id:11,name:'Coffee Maker',      cat:'Home',        price:64,    old:0,     r:4.5, i:'☕', c:'#fed7aa', d:'Brew up to 10 cups with a programmable timer.'},
+ {id:12,name:'Yoga Mat',          cat:'Sports',      price:22,    old:0,     r:4,   i:'🧘', c:'#ddd6fe', d:'Non-slip, extra-thick mat for yoga, pilates and stretching.'},
+ {id:13,name:'Water Bottle',      cat:'Sports',      price:15,    old:20,    r:4,   i:'🧴', c:'#99f6e4', d:'Insulated steel bottle that keeps drinks cold for 24 hours.'},
+ {id:14,name:'Football',          cat:'Sports',      price:27,    old:0,     r:4.5, i:'⚽', c:'#d9f99d', d:'Match-quality football with durable stitching.'}
+];
+const CATS = [
+ {n:'Fashion', i:'👗', c:'linear-gradient(120deg,#f43f5e,#fb923c)'},
+ {n:'Electronics', i:'🎧', c:'linear-gradient(120deg,#4f46e5,#06b6d4)'},
+ {n:'Home', i:'🛋️', c:'linear-gradient(120deg,#059669,#84cc16)'},
+ {n:'Sports', i:'⚽', c:'linear-gradient(120deg,#7c3aed,#ec4899)'}
+];
+const SLIDES = [
+ {t:'Summer Sale', s:'Up to 40% off fashion and accessories', c:'linear-gradient(120deg,#f43f5e,#fb923c)', cat:'Fashion', i:'👟'},
+ {t:'Next-Gen Audio', s:'Premium sound, unbeatable prices', c:'linear-gradient(120deg,#4f46e5,#06b6d4)', cat:'Electronics', i:'🎧'},
+ {t:'Refresh Your Home', s:'Cozy upgrades for every room', c:'linear-gradient(120deg,#059669,#84cc16)', cat:'Home', i:'🪴'}
+];
+
+/* ---------- helpers ---------- */
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function saveCart(){ set('cart', cart); nav(); }
+function addCart(id, n=1){ cart[id]=(cart[id]||0)+n; saveCart(); toast('Added to cart ✓'); }
+function chg(id,d){ cart[id]+=d; if(cart[id]<=0) delete cart[id]; saveCart(); route(); }
+function rm(id){ delete cart[id]; saveCart(); route(); }
+function totals(){
+  const sub = Object.entries(cart).reduce((a,[id,q])=>a+P.find(p=>p.id==id).price*q,0);
+  const ship = sub===0 || sub>=100 ? 0 : 7.99;
+  return {sub, ship, total: sub+ship};
+}
+function doSearch(e){ e.preventDefault(); location.hash='/shop?q='+encodeURIComponent($('#q').value); return false; }
+function nav(){
+  const n = Object.values(cart).reduce((a,b)=>a+b,0);
+  $('#nav').innerHTML = `<a href="#/shop">Shop</a>` +
+    (user ? `<a href="#/orders">Orders</a><a href="#" onclick="logout();return false">Hi, ${esc(user.name.split(' ')[0])} (logout)</a>`
+          : `<a href="#/login">Login</a>`) +
+    `<a class="cartbtn" href="#/cart">🛒${n?`<b>${n}</b>`:''}</a>`;
+}
+function logout(){ user=null; localStorage.removeItem('user'); nav(); toast('Logged out'); location.hash='/'; }
+function card(p){
+  const off = p.old ? Math.round((1-p.price/p.old)*100) : 0;
+  return `<div class="card">
+    <a href="#/product/${p.id}">
+      <div class="thumb" style="background:${p.c}">${p.i}${off?`<span class="badge">-${off}%</span>`:''}</div>
+      <div class="info"><small>${p.cat}</small><h3>${esc(p.name)}</h3>
+        <div class="stars">${stars(p.r)}</div>
+        <div class="price">${money(p.price)}${p.old?`<s>${money(p.old)}</s>`:''}</div></div>
+    </a>
+    <button class="btn" onclick="addCart(${p.id})">Add to cart</button></div>`;
+}
+
+/* ---------- pages ---------- */
+function home(){
+  return `<div class="wrap">
+  <div class="hero">
+    ${SLIDES.map(s=>`<div class="slide" style="background:${s.c}">
+        <div><h2>${s.t}</h2><p>${s.s}</p><a class="btn white" href="#/shop?cat=${s.cat}">Shop now</a></div>
+        <div class="big">${s.i}</div></div>`).join('')}
+    <button class="arr l" onclick="goSlide(cur-1)">‹</button><button class="arr r" onclick="goSlide(cur+1)">›</button>
+    <div class="dots">${SLIDES.map((_,i)=>`<span class="dot" onclick="goSlide(${i})"></span>`).join('')}</div>
+  </div>
+
+  <div class="feats">
+    <div class="feat"><span>🚚</span><b>Free Shipping</b><br><small>On orders over $100</small></div>
+    <div class="feat"><span>↩️</span><b>Easy Returns</b><br><small>30-day guarantee</small></div>
+    <div class="feat"><span>🔒</span><b>Secure Checkout</b><br><small>Encrypted payments</small></div>
+    <div class="feat"><span>💬</span><b>24/7 Support</b><br><small>We're here to help</small></div>
+  </div>
+
+  <h2 class="sec">Shop by category</h2>
+  <div class="cats">${CATS.map(c=>`<a class="cat" style="background:${c.c}" href="#/shop?cat=${c.n}">${c.n}<span>${c.i}</span></a>`).join('')}</div>
+
+  <h2 class="sec">Trending now <a href="#/shop">View all →</a></h2>
+  <div class="grid">${P.slice(0,8).map(card).join('')}</div>
+
+  <div class="promo"><div><h2>Flash Deals ⚡</h2><p>Save big on selected items. Limited time only.</p></div>
+    <a class="btn white" href="#/shop?sort=deals">See deals</a></div>
+
+  <h2 class="sec">Top rated</h2>
+  <div class="grid">${[...P].sort((a,b)=>b.r-a.r).slice(0,4).map(card).join('')}</div>
+
+  <div class="news"><h2>Join our newsletter</h2><p style="color:var(--mu)">Get 10% off your first order (demo, nothing is sent)</p>
+    <form onsubmit="event.preventDefault();toast('Subscribed! 🎉');this.reset()">
+      <input type="email" placeholder="you@example.com" required><button class="btn">Subscribe</button></form></div>
+  </div>`;
+}
+function startHero(){
+  const s=document.querySelectorAll('.slide'), d=document.querySelectorAll('.dot');
+  window.goSlide = n => { cur=(n+s.length)%s.length; s.forEach((x,k)=>x.classList.toggle('on',k===cur)); d.forEach((x,k)=>x.classList.toggle('on',k===cur)); };
+  goSlide(0); timer=setInterval(()=>goSlide(cur+1),4500);
+}
+
+function shop(q){
+  const cat=q.get('cat')||'', term=(q.get('q')||'').toLowerCase(), sort=q.get('sort')||'';
+  let list=P.filter(p=>(!cat||p.cat===cat)&&(!term||(p.name+p.cat).toLowerCase().includes(term)));
+  if(sort==='low') list.sort((a,b)=>a.price-b.price);
+  if(sort==='high') list.sort((a,b)=>b.price-a.price);
+  if(sort==='rating') list.sort((a,b)=>b.r-a.r);
+  if(sort==='deals') list=list.filter(p=>p.old);
+  const link=(c)=>`#/shop?cat=${c}${term?'&q='+encodeURIComponent(term):''}${sort?'&sort='+sort:''}`;
+  return `<div class="wrap"><h2 class="sec">${term?`Results for "${esc(term)}"`:'All products'}</h2>
+   <div class="bar2">
+     <a class="chip ${!cat?'on':''}" href="${link('')}">All</a>
+     ${CATS.map(c=>`<a class="chip ${cat===c.n?'on':''}" href="${link(c.n)}">${c.n}</a>`).join('')}
+     <select onchange="location.hash='/shop?cat=${cat}&q='+encodeURIComponent('${esc(term)}')+'&sort='+this.value">
+       ${[['','Featured'],['low','Price: low to high'],['high','Price: high to low'],['rating','Top rated'],['deals','Deals only']]
+         .map(([v,l])=>`<option value="${v}" ${sort===v?'selected':''}>${l}</option>`).join('')}
+     </select></div>
+   ${list.length?`<div class="grid">${list.map(card).join('')}</div>`:'<div class="empty"><h2>😕 No products found</h2><p>Try another search or category.</p></div>'}</div>`;
+}
+
+function product(id){
+  const p=P.find(x=>x.id===id); if(!p) return '<div class="wrap empty"><h2>Product not found</h2></div>';
+  return `<div class="wrap"><div class="pd">
+    <div class="pic" style="background:${p.c}">${p.i}</div>
+    <div><small style="color:var(--mu)"><a href="#/shop?cat=${p.cat}">${p.cat}</a></small>
+      <h1>${esc(p.name)}</h1><div class="stars">${stars(p.r)} <span style="color:var(--mu)">(${p.r})</span></div>
+      <div class="price">${money(p.price)}${p.old?`<s>${money(p.old)}</s>`:''}</div>
+      <p>${esc(p.d)}</p>
+      <span class="qty">Qty <input id="qty" type="number" min="1" max="20" value="1"></span>
+      <button class="btn" onclick="addCart(${p.id}, Math.max(1,+$('#qty').value||1))">Add to cart</button>
+      <p style="margin-top:18px">✅ In stock &nbsp; 🚚 Ships in 2-3 days</p></div></div>
+    <h2 class="sec">You may also like</h2>
+    <div class="grid">${P.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4).map(card).join('')}</div></div>`;
+}
+
+function cartPage(){
+  const items=Object.entries(cart), t=totals();
+  if(!items.length) return `<div class="wrap empty"><h2>🛒 Your cart is empty</h2><br><a class="btn" href="#/shop">Start shopping</a></div>`;
+  return `<div class="wrap"><h2 class="sec">Shopping cart</h2><div class="two">
+   <div class="box">${items.map(([id,q])=>{const p=P.find(x=>x.id==id);return `<div class="row">
+      <div class="ic" style="background:${p.c}">${p.i}</div>
+      <div class="nm"><b>${esc(p.name)}</b><br><small>${money(p.price)}</small></div>
+      <div class="q"><button onclick="chg(${id},-1)">−</button> ${q} <button onclick="chg(${id},1)">+</button></div>
+      <b>${money(p.price*q)}</b><button class="rm" onclick="rm(${id})">✕</button></div>`}).join('')}</div>
+   <div class="box sum"><h2>Order summary</h2>
+     <div><span>Subtotal</span><span>${money(t.sub)}</span></div>
+     <div><span>Shipping</span><span>${t.ship?money(t.ship):'FREE'}</span></div>
+     <div class="t"><span>Total</span><span>${money(t.total)}</span></div>
+     <a class="btn" style="display:block;text-align:center;margin-top:14px" href="#/checkout">Checkout</a></div></div></div>`;
+}
+
+function checkout(){
+  if(!Object.keys(cart).length){ location.hash='/cart'; return ''; }
+  if(!user){ sessionStorage.setItem('next','/checkout'); location.hash='/login'; return ''; }
+  const t=totals();
+  return `<div class="wrap"><h2 class="sec">Checkout</h2><div class="two">
+   <form class="box form" style="margin:0;max-width:none" onsubmit="placeOrder(event)">
+     <h2>Shipping and payment</h2>
+     <div class="note">Demo only. Do not enter real card details.</div>
+     <label>Full name</label><input name="fullname" value="${esc(user.name)}" required>
+     <label>Address</label><input name="addr" required>
+     <label>City</label><input name="city" required>
+     <label>Card number (fake)</label><input name="card" placeholder="4242 4242 4242 4242" required>
+     <button class="btn">Pay ${money(t.total)}</button></form>
+   <div class="box sum"><h2>Your order</h2>
+     ${Object.entries(cart).map(([id,q])=>{const p=P.find(x=>x.id==id);return `<div><span>${p.i} ${esc(p.name)} × ${q}</span><span>${money(p.price*q)}</span></div>`}).join('')}
+     <div><span>Shipping</span><span>${t.ship?money(t.ship):'FREE'}</span></div>
+     <div class="t"><span>Total</span><span>${money(t.total)}</span></div></div></div></div>`;
+}
+function placeOrder(e){
+  e.preventDefault(); const t=totals();
+  const o=get('orders',[]);
+  o.unshift({id:'ORD-'+Date.now().toString().slice(-6), date:new Date().toLocaleDateString(), total:t.total,
+    items:Object.entries(cart).map(([id,q])=>({id:+id,q}))});
+  set('orders',o); cart={}; saveCart(); location.hash='/orders?new=1';
+}
+
+function orders(q){
+  if(!user){ sessionStorage.setItem('next','/orders'); location.hash='/login'; return ''; }
+  const o=get('orders',[]);
+  return `<div class="wrap"><h2 class="sec">My orders</h2>
+   ${q.get('new')?'<div class="ok">🎉 Thank you! Your demo order was placed successfully.</div>':''}
+   ${o.length?o.map(x=>`<div class="box" style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${x.id}</b><span style="color:var(--mu)">${x.date}</span></div>
+     <p style="margin:8px 0">${x.items.map(i=>{const p=P.find(y=>y.id===i.id);return p.i+' '+esc(p.name)+' × '+i.q}).join(', ')}</p>
+     <b>Total: ${money(x.total)}</b> &nbsp; <span style="color:#16a34a">● Processing</span></div>`).join('')
+     :'<div class="empty"><h2>No orders yet</h2><br><a class="btn" href="#/shop">Browse products</a></div>'}</div>`;
+}
+
+function login(q){
+  const reg=q.get('m')==='register';
+  return `<div class="wrap"><div class="box form">
+   <div class="tabs"><a class="${!reg?'on':''}" href="#/login">Login</a><a class="${reg?'on':''}" href="#/login?m=register">Register</a></div>
+   ${reg?`<form onsubmit="doRegister(event)">
+      <label>Full name</label><input name="fullname" required>
+      <label>Email</label><input name="email" type="email" required>
+      <label>Password</label><input name="pass" type="password" minlength="4" required>
+      <button class="btn">Create account</button></form>`
+    :`<div class="note">Demo account: demo@shop.com / demo123</div>
+      <form onsubmit="doLogin(event)">
+      <label>Email</label><input name="email" type="email" value="demo@shop.com" required>
+      <label>Password</label><input name="pass" type="password" value="demo123" required>
+      <button class="btn">Sign in</button></form>`}
+  </div></div>`;
+}
+function afterAuth(){ const n=sessionStorage.getItem('next')||'/'; sessionStorage.removeItem('next'); nav(); toast('Welcome, '+user.name+' 👋'); location.hash=n; }
+function doLogin(e){
+  e.preventDefault(); const f=e.target;
+  const u=get('users',[]).find(x=>x.email===f.email.value.toLowerCase()&&x.pass===f.pass.value);
+  if(!u) return toast('Wrong email or password');
+  user={name:u.name,email:u.email}; set('user',user); afterAuth();
+}
+function doRegister(e){
+  e.preventDefault(); const f=e.target, us=get('users',[]), em=f.email.value.toLowerCase();
+  if(us.some(x=>x.email===em)) return toast('Email already registered');
+  us.push({name:f.fullname.value,email:em,pass:f.pass.value}); set('users',us);
+  user={name:f.fullname.value,email:em}; set('user',user); afterAuth();
+}
+
+/* ---------- router ---------- */
+function route(){
+  clearInterval(timer);
+  const [path,qs]=(location.hash.slice(1)||'/').split('?'), q=new URLSearchParams(qs||''), m=path.match(/^\/product\/(\d+)$/);
+  let h;
+  if(path==='/') h=home();
+  else if(path==='/shop') h=shop(q);
+  else if(m) h=product(+m[1]);
+  else if(path==='/cart') h=cartPage();
+  else if(path==='/checkout') h=checkout();
+  else if(path==='/orders') h=orders(q);
+  else if(path==='/login') h=login(q);
+  else h='<div class="wrap empty"><h2>Page not found</h2></div>';
+  $('#app').innerHTML=h;
+  if(path==='/') startHero();
+  nav(); window.scrollTo(0,0);
+}
+window.onhashchange=route; route();
+</script>
+</body>
+</html>
